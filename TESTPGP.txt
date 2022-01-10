@@ -1,0 +1,33 @@
+<textarea id="input" class="contact-form" style="width: 300px; height: 140px;"></textarea><br>
+<button id="button" class="btn btn-warning">Encrypt</button> 
+<button id="button" class="btn btn-warning" onclick="copy()">Copy</button>
+<script>
+    function copy() {
+    let textarea = document.getElementById("input");
+    textarea.select();
+    document.execCommand("copy");
+}
+</script>
+<script type="text/javascript">
+function encrypt() {  
+    if (window.crypto.getRandomValues) {  
+        if ($('#button').html() === "Encrypt") {  
+            var pub_key = openpgp.key.readArmored($('#pubkey').text());  
+            var pgp_message = openpgp.encryptMessage(pub_key.keys, $('#input').val());  
+            $('#input').val(pgp_message);  
+            $('#button').html("Clear");  
+            return true;  
+        } else {  
+            $('#input').val("");  
+            $('#button').html("Encrypt");  
+        }  
+   } else {  
+        $("#button").val("Error");  
+        window.alert("This browser isn't supported!");  
+        return false;  
+    }  
+}  
+</script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/openpgp@4.10.4/dist/openpgp.min.js"></script>
+<script src="https://cdn.jsdelivr.net/gh/Marlonsawsm/PGP/crypto.min.js"></script>
